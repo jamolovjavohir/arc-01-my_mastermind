@@ -1,16 +1,22 @@
-CC=gcc
-CFLAGS=-I.
-DEPS = my_mastermind.c
-OBJ = my_mastermind.o
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror
 
-%.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+SRC = my_mastermind.c
+OBJ = $(SRC:.c=.o)
+TARGET = my_mastermind
 
-make: $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+all : $(TARGET)
 
-make:
-	$(CC) my_mastermind.c -o my_mastermind
-.PHONY: clean
+$(TARGET) : $(OBJ)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJ) 
+
+$(OBJ) : $(SRC)
+	$(CC) $(CFLAGS) -c $(SRC)
+
 clean:
-	rm -f *.o my_mastermind 
+	rm -f *.o
+
+fclean: clean
+	rm -f $(TARGET)
+
+re: fclean all
